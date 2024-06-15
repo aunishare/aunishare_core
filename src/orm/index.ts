@@ -6,6 +6,7 @@ import { User } from './entities/user';
 import { config } from '../config';
 import logger from './util/logger';
 import { Init1718477530610 } from './migrations/1718477530610-init';
+import { AddStatus1718484715129 } from './migrations/1718484715129-add-status';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -15,7 +16,7 @@ const AppDataSource = new DataSource({
   username: config.db.username,
   password: config.db.password,
   entities: [City, Ticket, TicketType, User],
-  migrations: [Init1718477530610],
+  migrations: [Init1718477530610, AddStatus1718484715129],
 });
 
 if (process.env.WITH_MIGRATION_DATASOURCE === 'true') {

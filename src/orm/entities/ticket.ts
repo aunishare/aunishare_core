@@ -9,6 +9,7 @@ import {
 import { City } from './city';
 import { User } from './user';
 import { TicketType } from './ticketType';
+import { TicketStatus } from '../types';
 
 @Entity()
 export class Ticket {
@@ -28,6 +29,13 @@ export class Ticket {
     nullable: false,
   })
   ticketType: TicketType;
+
+  @Column('enum', {
+    nullable: false,
+    enum: ['pending', 'validated', 'expired'],
+    default: 'pending',
+  })
+  status: TicketStatus;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
