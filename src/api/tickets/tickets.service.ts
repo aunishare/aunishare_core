@@ -18,7 +18,7 @@ export class TicketsService {
       throw new NotFoundException(`User with address ${address} not found`);
     }
 
-    const [items, total] = await AppDataSource.getRepository(
+    const [data, total] = await AppDataSource.getRepository(
       Ticket,
     ).findAndCount({
       relations: {
@@ -31,7 +31,7 @@ export class TicketsService {
       },
     });
 
-    return { items, total };
+    return { data, total };
   }
 
   async getTicket(id: number): Promise<Ticket> {

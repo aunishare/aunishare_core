@@ -1,4 +1,4 @@
 export class PaginatedData<T> {
-  items: T[];
+  data: T[];
   total: number;
 }

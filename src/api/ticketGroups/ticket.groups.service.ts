@@ -7,7 +7,7 @@ import { PaginatedData } from '../common/pagination.dto';
 @Injectable()
 export class TicketGroupsService {
   async getTicketGroups(): Promise<PaginatedData<TicketGroupDTO>> {
-    const [data, total] = await AppDataSource.getRepository(
+    const [groups, total] = await AppDataSource.getRepository(
       TicketGroup,
     ).findAndCount({
       relations: {
@@ -15,7 +15,7 @@ export class TicketGroupsService {
         ticketTypes: true,
       },
     });
-    const items = data.map((ticketGroup) => TicketGroupDTO.map(ticketGroup));
-    return { items, total };
+    const data = groups.map((ticketGroup) => TicketGroupDTO.map(ticketGroup));
+    return { data, total };
   }
 }
