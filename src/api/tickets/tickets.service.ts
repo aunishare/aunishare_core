@@ -4,7 +4,7 @@ import { Ticket } from '../../orm/entities/ticket';
 
 @Injectable()
 export class TicketsService {
-  getTickets(): object {
+  getTickets(): Promise<Ticket[]> {
     return AppDataSource.getRepository(Ticket).find({
       relations: {
         city: true,
