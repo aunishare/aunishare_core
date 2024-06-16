@@ -32,7 +32,7 @@ export class TicketType {
   @Column('varchar', { nullable: true })
   description: string;
 
-  @Column('int')
+  @Column('varchar')
   price: string;
 
   @OneToMany(() => Ticket, (ticket) => ticket.ticketType, { nullable: true })
