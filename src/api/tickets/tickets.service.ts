@@ -34,6 +34,23 @@ export class TicketsService {
     return { items, total };
   }
 
+  async getTicket(id: number): Promise<Ticket> {
+    const ticket = await AppDataSource.getRepository(Ticket).findOne({
+      where: {
+        id,
+      },
+      relations: {
+        ticketType: {
+          ticketGroup: true,
+        },
+      },
+    });
+    if (!ticket) {
+      throw new NotFoundException(`Ticket with id ${id} not found`);
+    }
+    return ticket;
+  }
+
   async createTicket(ticket: CreateTicketDTO): Promise<Ticket> {
     const user = await AppDataSource.getRepository(User).findOne({
       where: {
@@ -60,5 +77,29 @@ export class TicketsService {
       ticketType,
       status: 'pending',
     });
+  }
+
+  async validateTicket(id: number): Promise<Ticket> {
+    const ticket = await AppDataSource.getRepository(Ticket).findOne({
+      where: {
+        id,
+      },
+    });
+    if (!ticket) {
+      throw new NotFoundException(`Ticket with id ${id} not found`);
+    }
+    if (ticket.status !== 'pending') {
+      throw new NotFoundException(`Ticket with id ${id} is not pending`);
+    }
+    ticket.status = 'validated';
+    ticket.validatedAt = new Date();
+
+    setTimeout(() => {
+      ticket.status = 'expired';
+      ticket.validatedAt = null;
+      AppDataSource.getRepository(Ticket).save(ticket);
+    }, 30000);
+
+    return AppDataSource.getRepository(Ticket).save(ticket);
   }
 }
