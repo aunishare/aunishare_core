@@ -14,7 +14,7 @@ export class Init1718502809693 implements MigrationInterface {
       `CREATE TABLE "ticket" ("id" SERIAL NOT NULL, "validatedAt" date, "status" "public"."ticket_status_enum" NOT NULL DEFAULT 'pending', "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "userId" integer, "ticketTypeId" integer NOT NULL, CONSTRAINT "PK_d9a0835407701eb86f874474b7c" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "ticket_type" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "service" character varying NOT NULL, "zone" character varying NOT NULL, "time" character varying NOT NULL, "description" character varying, "price" integer NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "ticketGroupId" integer, CONSTRAINT "PK_757d4830df239a662399edf9f24" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "ticket_type" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "service" character varying NOT NULL, "zone" character varying NOT NULL, "time" character varying NOT NULL, "description" character varying, "price" varchar NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "ticketGroupId" integer, CONSTRAINT "PK_757d4830df239a662399edf9f24" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE UNIQUE INDEX "ticket_type_name_idx" ON "ticket_type" ("name") `,
