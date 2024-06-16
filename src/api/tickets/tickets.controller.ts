@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { TicketsService } from './tickets.service';
 import { Ticket } from '../../orm/entities/ticket';
 import { CreateTicketDTO } from './tickets.dto';
@@ -38,6 +47,12 @@ export class TicketsController {
   @Get('/tickets/:id')
   getTicket(@Param('id') id: number): Promise<Ticket> {
     return this.appService.getTicket(id);
+  }
+
+  @Delete('/tickets/:id')
+  @HttpCode(204)
+  deleteTicket(@Param('id') id: number): Promise<void> {
+    return this.appService.deleteTicket(id);
   }
 
   @Post('/tickets/:id/validate')

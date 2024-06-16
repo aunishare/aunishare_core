@@ -80,6 +80,18 @@ export class TicketsService {
     return ticket;
   }
 
+  async deleteTicket(id: number): Promise<void> {
+    const ticket = await AppDataSource.getRepository(Ticket).findOne({
+      where: {
+        id,
+      },
+    });
+    if (!ticket) {
+      throw new NotFoundException(`Ticket with id ${id} not found`);
+    }
+    await AppDataSource.getRepository(Ticket).remove(ticket);
+  }
+
   async getTicketType(id: number): Promise<TicketTypeDTO> {
     const ticketType = await AppDataSource.getRepository(TicketType).findOne({
       where: {
