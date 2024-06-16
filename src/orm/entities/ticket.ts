@@ -18,6 +18,9 @@ export class Ticket {
   @Column('date', { nullable: true })
   validatedAt: Date;
 
+  @Column('varchar', { nullable: true })
+  validationCode: string;
+
   @ManyToOne(() => User, (user) => user.tickets, { nullable: true })
   user: User;
 

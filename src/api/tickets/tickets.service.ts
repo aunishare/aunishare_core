@@ -92,11 +92,13 @@ export class TicketsService {
       throw new NotFoundException(`Ticket with id ${id} is not pending`);
     }
     ticket.status = 'validated';
+    ticket.validationCode = `DEV${Math.floor(Math.random() * 10000)}`;
     ticket.validatedAt = new Date();
 
     setTimeout(() => {
       ticket.status = 'expired';
       ticket.validatedAt = null;
+      ticket.validationCode = null;
       AppDataSource.getRepository(Ticket).save(ticket);
     }, 30000);
 
