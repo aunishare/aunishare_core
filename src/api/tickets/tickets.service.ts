@@ -5,6 +5,7 @@ import { CreateTicketDTO } from './tickets.dto';
 import { User } from '../../orm/entities/user';
 import { TicketType } from '../../orm/entities/ticketType';
 import { PaginatedData } from '../common/pagination.dto';
+import { TicketTypeDTO } from '../ticketGroups/ticket.groups.dto';
 
 @Injectable()
 export class TicketsService {
@@ -49,6 +50,21 @@ export class TicketsService {
       throw new NotFoundException(`Ticket with id ${id} not found`);
     }
     return ticket;
+  }
+
+  async getTicketType(id: number): Promise<TicketTypeDTO> {
+    const ticketType = await AppDataSource.getRepository(TicketType).findOne({
+      where: {
+        id,
+      },
+      relations: {
+        ticketGroup: true,
+      },
+    });
+    if (!ticketType) {
+      throw new NotFoundException(`Ticket with id ${id} not found`);
+    }
+    return TicketTypeDTO.map(ticketType);
   }
 
   async createTicket(ticket: CreateTicketDTO): Promise<Ticket> {
