@@ -6,8 +6,10 @@ import {
   UpdateDateColumn,
   Index,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Ticket } from './ticket';
+import { TicketGroup } from './ticketGroup';
 
 @Entity()
 export class TicketType {
@@ -19,14 +21,27 @@ export class TicketType {
   name: string;
 
   @Column('varchar')
-  @Index('ticket_type_sku_idx', { unique: true })
-  sku: string;
+  service: string;
+
+  @Column('varchar')
+  zone: string;
+
+  @Column('varchar')
+  time: string;
+
+  @Column('varchar', { nullable: true })
+  description: string;
 
   @Column('int')
-  duration: number;
+  price: string;
 
   @OneToMany(() => Ticket, (ticket) => ticket.ticketType, { nullable: true })
   tickets: Ticket[];
+
+  @ManyToOne(() => TicketGroup, (ticketGroup) => ticketGroup.ticketTypes, {
+    nullable: true,
+  })
+  ticketGroup: TicketGroup;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

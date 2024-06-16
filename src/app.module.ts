@@ -4,10 +4,10 @@ import { AppService } from './app.service';
 import { UsersModule } from './api/users/users.module';
 import { TicketsModule } from './api/tickets/tickets.module';
 import { CitiesModule } from './api/cities/cities.module';
-import { TicketTypesModule } from './api/ticketTypes/ticket.types.module';
+import { TicketGroupsModule } from './api/ticketGroups/ticket.groups.module';
 
 @Module({
-  imports: [UsersModule, TicketsModule, TicketTypesModule, CitiesModule],
+  imports: [UsersModule, TicketsModule, TicketGroupsModule, CitiesModule],
   controllers: [AppController],
   providers: [AppService],
 })

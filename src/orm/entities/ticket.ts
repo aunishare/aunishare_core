@@ -6,7 +6,6 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { City } from './city';
 import { User } from './user';
 import { TicketType } from './ticketType';
 import { TicketStatus } from '../types';
@@ -18,9 +17,6 @@ export class Ticket {
 
   @Column('date', { nullable: true })
   validatedAt: Date;
-
-  @ManyToOne(() => City, (city) => city.tickets, { nullable: true })
-  city: City;
 
   @ManyToOne(() => User, (user) => user.tickets, { nullable: true })
   user: User;

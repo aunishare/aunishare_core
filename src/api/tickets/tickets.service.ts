@@ -7,8 +7,6 @@ export class TicketsService {
   getTickets(): Promise<Ticket[]> {
     return AppDataSource.getRepository(Ticket).find({
       relations: {
-        city: true,
-        user: true,
         ticketType: true,
       },
     });

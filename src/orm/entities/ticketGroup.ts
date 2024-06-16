@@ -3,29 +3,30 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  Index,
   UpdateDateColumn,
+  Index,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
-import { TicketGroup } from './ticketGroup';
+import { TicketType } from './ticketType';
+import { City } from './city';
 
 @Entity()
-export class City {
+export class TicketGroup {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column('varchar')
-  @Index('city_name_idx', { unique: false })
+  @Index('ticket_group_name_idx', { unique: true })
   name: string;
 
-  @Column('varchar')
-  @Index('city_country_code_idx', { unique: false })
-  countryCode: string;
+  @ManyToOne(() => City, (city) => city.ticketGroups, { nullable: true })
+  city: City;
 
-  @OneToMany(() => TicketGroup, (ticketGroup) => ticketGroup.city, {
+  @OneToMany(() => TicketType, (ticketType) => ticketType.ticketGroup, {
     nullable: true,
   })
-  ticketGroups: TicketGroup[];
+  ticketTypes: TicketType[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
