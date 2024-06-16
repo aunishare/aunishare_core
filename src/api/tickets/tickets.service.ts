@@ -5,11 +5,15 @@ import { CreateTicketDTO } from './tickets.dto';
 import { User } from '../../orm/entities/user';
 import { TicketType } from '../../orm/entities/ticketType';
 import { PaginatedData } from '../common/pagination.dto';
-import { TicketTypeDTO } from '../ticketGroups/ticket.groups.dto';
+import {
+  TicketGroupDTO,
+  TicketTypeDTO,
+} from '../ticketGroups/ticket.groups.dto';
+import { TicketGroup } from '../../orm/entities/ticketGroup';
 
 @Injectable()
 export class TicketsService {
-  async getTickets(address: string): Promise<PaginatedData<Ticket>> {
+  async getTickets(address: string): Promise<PaginatedData<TicketGroupDTO>> {
     const user = await AppDataSource.getRepository(User).findOne({
       where: {
         address,
@@ -19,18 +23,23 @@ export class TicketsService {
       throw new NotFoundException(`User with address ${address} not found`);
     }
 
-    const [data, total] = await AppDataSource.getRepository(
-      Ticket,
+    const [groups, total] = await AppDataSource.getRepository(
+      TicketGroup,
     ).findAndCount({
       relations: {
-        ticketType: {
-          ticketGroup: true,
+        ticketTypes: {
+          tickets: true,
         },
       },
       where: {
-        user: { id: user.id },
+        ticketTypes: {
+          tickets: {
+            user: { id: user.id },
+          },
+        },
       },
     });
+    const data = groups.map((ticketGroup) => TicketGroupDTO.map(ticketGroup));
 
     return { data, total };
   }

@@ -30,9 +30,17 @@ export class TicketGroupDTO {
     return {
       id: ticketGroup.id,
       name: ticketGroup.name,
-      tickets: ticketGroup.ticketTypes.map((ticketType) =>
-        TicketTypeDTO.map(ticketType),
-      ),
+      tickets: ticketGroup.ticketTypes.flatMap((ticketType) => {
+        if (ticketType.tickets) {
+          return ticketType.tickets.map((ticket) =>
+            TicketTypeDTO.map({
+              ...ticketType,
+              id: ticket.id,
+            }),
+          );
+        }
+        return [TicketTypeDTO.map(ticketType)];
+      }),
     };
   }
 }

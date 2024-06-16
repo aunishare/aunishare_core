@@ -3,7 +3,10 @@ import { TicketsService } from './tickets.service';
 import { Ticket } from '../../orm/entities/ticket';
 import { CreateTicketDTO } from './tickets.dto';
 import { PaginatedData } from '../common/pagination.dto';
-import { TicketTypeDTO } from '../ticketGroups/ticket.groups.dto';
+import {
+  TicketGroupDTO,
+  TicketTypeDTO,
+} from '../ticketGroups/ticket.groups.dto';
 
 @Controller()
 export class TicketsController {
@@ -12,7 +15,7 @@ export class TicketsController {
   @Get('/tickets')
   getTickets(
     @Query('address') address: string,
-  ): Promise<PaginatedData<Ticket>> {
+  ): Promise<PaginatedData<TicketGroupDTO>> {
     return this.appService.getTickets(address);
   }
 
