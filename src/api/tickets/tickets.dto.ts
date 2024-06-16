@@ -4,5 +4,5 @@ export class CreateTicketDTO {
   ticketTypeId: number;
 
   @IsNumber()
-  userId: number;
+  address: string;
 }
