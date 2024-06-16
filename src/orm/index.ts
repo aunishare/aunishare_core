@@ -6,7 +6,7 @@ import { User } from './entities/user';
 import { config } from '../config';
 import logger from './util/logger';
 import { TicketGroup } from './entities/ticketGroup';
-import { Init1718502809693 } from './migrations/1718502809693-init';
+import { Init1718502809693 } from './migrations/1718502809693-Init';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
