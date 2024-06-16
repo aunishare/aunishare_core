@@ -10,6 +10,7 @@ import {
   TicketTypeDTO,
 } from '../ticketGroups/ticket.groups.dto';
 import { TicketGroup } from '../../orm/entities/ticketGroup';
+import { Count } from '../common/count.dto';
 
 @Injectable()
 export class TicketsService {
@@ -42,6 +43,24 @@ export class TicketsService {
     const data = groups.map((ticketGroup) => TicketGroupDTO.map(ticketGroup));
 
     return { data, total };
+  }
+
+  async getTicketsCount(address: string): Promise<Count> {
+    const user = await AppDataSource.getRepository(User).findOne({
+      where: {
+        address,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException(`User with address ${address} not found`);
+    }
+
+    const count = await AppDataSource.getRepository(Ticket).count({
+      where: {
+        user: { id: user.id },
+      },
+    });
+    return { count };
   }
 
   async getTicket(id: number): Promise<Ticket> {

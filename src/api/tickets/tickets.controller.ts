@@ -7,6 +7,7 @@ import {
   TicketGroupDTO,
   TicketTypeDTO,
 } from '../ticketGroups/ticket.groups.dto';
+import { Count } from '../common/count.dto';
 
 @Controller()
 export class TicketsController {
@@ -27,6 +28,11 @@ export class TicketsController {
   @Post('/tickets')
   createTicket(@Body() ticket: CreateTicketDTO): Promise<Ticket> {
     return this.appService.createTicket(ticket);
+  }
+
+  @Get('/tickets/count')
+  getTicketsCount(@Query('address') address: string): Promise<Count> {
+    return this.appService.getTicketsCount(address);
   }
 
   @Get('/tickets/:id')
